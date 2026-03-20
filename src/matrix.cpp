@@ -1,4 +1,4 @@
-#include "Matrix.h"
+#include "matrix.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -6,7 +6,11 @@
 #include <stdexcept>
 
 // Constructor
-Matrix::Matrix(int r, int c) : rows(r), cols(c), data(r, std::vector<double>(c, 0.0)) {}
+Matrix::Matrix(int r, int c) {
+    rows = r;
+    cols = c;
+    data = std::vector<std::vector<double>>(r, std::vector<double>(c, 0.0));
+}
 
 // Accessors
 void Matrix::set(int r, int c, double val) { data[r][c] = val; }
