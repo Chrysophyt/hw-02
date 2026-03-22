@@ -135,3 +135,45 @@ TEST(MatrixTest, DisplayOutput) {
     
     EXPECT_EQ(output, expected_output);
 }
+
+TEST(MatrixTest, BadMultiplication) {
+    Matrix m1(2, 3); 
+    Matrix m2(2, 2); 
+
+    EXPECT_THROW({
+        Matrix result = m1 * m2; 
+    }, std::invalid_argument);
+}
+
+TEST(MatrixTest, BadSubstraction) {
+    Matrix m1(2, 3); 
+    Matrix m2(2, 2); 
+
+    EXPECT_THROW({
+        Matrix result = m1 - m2; 
+    }, std::invalid_argument);
+}
+
+TEST(MatrixTest, BadAddition) {
+    Matrix m1(2, 3); 
+    Matrix m2(2, 2); 
+
+    EXPECT_THROW({
+        Matrix result = m1 + m2; 
+    }, std::invalid_argument);
+}
+
+TEST(MatrixTest, BadReadFromFile) {
+    std::string bad_filename = "thisFileDoNotExist.txt";
+    EXPECT_THROW({
+        Matrix m1 = Matrix::readFromFile(bad_filename);
+    }, std::runtime_error);
+}
+
+TEST(MatrixTest, BadWriteToFile) {
+    Matrix m(2, 2);
+    std::string bad_filename = "/this_directory_does_not_exist/matrix.txt";
+    EXPECT_THROW({
+        m.writeToFile(bad_filename); // Replace with your actual function name
+    }, std::runtime_error);
+}
