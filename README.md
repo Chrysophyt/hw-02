@@ -29,7 +29,7 @@ While still inside the build/ directory, run:
 
 ```Bash
 ./matrix_test
-gcovr --root .. . --html --html-details -o coverage.html
+gcovr --root .. . --html --html-details --exclude-throw-branches -o coverage.html
 ```
 You should see a green gTest output indicating that all tests have passed. If a test crashes or fails, fix the code before proceeding to the coverage step.
 With the tests successfully executed, you can also use gcovr to parse the coverage data and generate a detailed HTML webpage.

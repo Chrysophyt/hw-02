@@ -54,8 +54,18 @@ Matrix Matrix::readFromFile(const std::string& filename) {
             std::vector<double> row;
             std::stringstream ss(clean(line));
             double val;
-            while (ss >> val) row.push_back(val);
-            if (!row.empty()) temp_data.push_back(row);
+            
+            while (ss >> val) {
+                row.push_back(val);
+            }
+
+            if (!ss.eof()) {
+                throw std::runtime_error("Invalid character in matrix data.");
+            }
+
+            if (!row.empty()) {
+                temp_data.push_back(row);
+            }
         }
     }
 

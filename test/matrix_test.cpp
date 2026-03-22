@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "matrix.h"
 #include <cstdio>
+#include <fstream>
 
 TEST(MatrixTest, InitializationAndAccess) {
     Matrix m(2, 3);
@@ -121,46 +122,30 @@ TEST(MatrixTest, DisplayOutput) {
     m.set(0, 0, 1.5); m.set(0, 1, 2.5);
     m.set(1, 0, 3.5); m.set(1, 1, 4.5);
 
-    // 1. Tell gTest to start recording terminal output
     testing::internal::CaptureStdout();
-
-    // 2. Call your function (it will print to the hidden recorder instead of the screen)
     m.display();
-
-    // 3. Stop recording and grab the output as a string
     std::string output = testing::internal::GetCapturedStdout();
-
-    // 4. Verify the string matches exactly what we expect based on your implementation
     std::string expected_output = "1.5\t2.5\t\n3.5\t4.5\t\n";
     
     EXPECT_EQ(output, expected_output);
 }
 
 TEST(MatrixTest, BadMultiplication) {
-    Matrix m1(2, 3); 
-    Matrix m2(2, 2); 
+    Matrix m1(2, 3), m2(2, 2); 
 
-    EXPECT_THROW({
-        Matrix result = m1 * m2; 
-    }, std::invalid_argument);
-}
-
-TEST(MatrixTest, BadSubstraction) {
-    Matrix m1(2, 3); 
-    Matrix m2(2, 2); 
-
-    EXPECT_THROW({
-        Matrix result = m1 - m2; 
-    }, std::invalid_argument);
+    EXPECT_THROW(m1 * m2, std::invalid_argument);
 }
 
 TEST(MatrixTest, BadAddition) {
-    Matrix m1(2, 3); 
-    Matrix m2(2, 2); 
+    Matrix m1(2, 2), m2(3, 2), m3(2, 3);
+    EXPECT_THROW(m1 + m2, std::invalid_argument); // Hits Row mismatch
+    EXPECT_THROW(m1 + m3, std::invalid_argument); // Hits Col mismatch
+}
 
-    EXPECT_THROW({
-        Matrix result = m1 + m2; 
-    }, std::invalid_argument);
+TEST(MatrixTest, BadSubstraction) {
+    Matrix m1(2, 2), m2(3, 2), m3(2, 3);
+    EXPECT_THROW(m1 - m2, std::invalid_argument); // Hits Row mismatch
+    EXPECT_THROW(m1 - m3, std::invalid_argument); // Hits Col mismatch
 }
 
 TEST(MatrixTest, BadReadFromFile) {
@@ -176,4 +161,58 @@ TEST(MatrixTest, BadWriteToFile) {
     EXPECT_THROW({
         m.writeToFile(bad_filename); // Replace with your actual function name
     }, std::runtime_error);
+}
+
+TEST(MatrixTest, ReadFileEdgeCases) {
+    // 1. Force temp_data.empty() branch
+    {
+        std::ofstream out("no_data.txt");
+        out << "[ \n ]"; 
+        out.close();
+        EXPECT_THROW(Matrix::readFromFile("no_data.txt"), std::runtime_error);
+        std::remove("no_data.txt");
+    }
+
+    // 2. Force !row.empty() and skip empty row case
+    {
+        std::ofstream out("empty_row.txt");
+        out << "[\n";
+        out << "  [1, 2],\n";
+        out << "  [\t],\n";  // <--- A TAB CHARACTER inside brackets
+        out << "  [3, 4]\n";
+        out << "]";
+        out.close();
+        Matrix m = Matrix::readFromFile("empty_row.txt");
+        EXPECT_EQ(m.getRows(), 2);
+        std::remove("empty_row.txt");
+    }
+
+    // 3. Bad Character
+    {
+        std::ofstream out("bad_char.txt");
+        out << "[[1.0, x]]"; // 'x' makes ss.fail() true before EOF
+        out.close();
+        EXPECT_THROW(Matrix::readFromFile("bad_char.txt"), std::runtime_error);
+        std::remove("bad_char.txt");
+    }
+
+    // 4. Bad Trail
+    {
+        std::ofstream out("junk.txt");
+        out << "[[1.0] some_random_text]"; 
+        out.close();
+        // Depending on your 'clean' logic, this should trigger the error
+        EXPECT_THROW(Matrix::readFromFile("junk.txt"), std::runtime_error);
+        std::remove("junk.txt");
+    }
+}
+
+TEST(MatrixTest, ReadValidFile) {
+    std::ofstream out("good_matrix.txt");
+    out << "[[1.0, 2.0], [3.0, 4.0]]"; 
+    out.close();
+
+    // This call will hit the 'if (ss.fail())' line, 
+    // find that it is FALSE, and skip the block (Branch 4).
+    EXPECT_NO_THROW(Matrix::readFromFile("good_matrix.txt"));
 }
