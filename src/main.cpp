@@ -2,8 +2,9 @@
 
 #include "matrix.h"
 
-int main() { // NOLINT(modernize-use-trailing-return-type)
-  // NOLINTBEGIN(readability-magic-numbers, cppcoreguidelines-avoid-magic-numbers, readability-identifier-length)
+int main() {  // NOLINT(modernize-use-trailing-return-type)
+  // NOLINTBEGIN(readability-magic-numbers,
+  // cppcoreguidelines-avoid-magic-numbers, readability-identifier-length)
   std::cout << "--- Matrix Application ---\n";
 
   Matrix A(2, 2);
@@ -24,5 +25,6 @@ int main() { // NOLINT(modernize-use-trailing-return-type)
   std::cout << "Done!\n";
 
   return 0;
-  // NOLINTEND(readability-magic-numbers, cppcoreguidelines-avoid-magic-numbers, readability-identifier-length)
+  // NOLINTEND(readability-magic-numbers, cppcoreguidelines-avoid-magic-numbers,
+  // readability-identifier-length)
 }

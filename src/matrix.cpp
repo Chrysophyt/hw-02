@@ -7,22 +7,22 @@
 #include <stdexcept>
 
 // Constructor
-Matrix::Matrix(int row, int col) 
-    : rows(row), 
-      cols(col), 
-      data(row, std::vector<double>(col, 0.0)) {
-}
+Matrix::Matrix(int row, int col)
+    : rows(row), cols(col), data(row, std::vector<double>(col, 0.0)) {}
 
 // Accessors
 void Matrix::set(int row, int col, double val) { data[row][col] = val; }
 auto Matrix::get(int row, int col) const -> double { return data[row][col]; }
 
 // Private string cleaner
-auto Matrix::clean(std::string text)  -> std::string {
+auto Matrix::clean(std::string text) -> std::string {
   // Boost::algorithm dependencies needed for this
-  text.erase(std::remove(text.begin(), text.end(), '['), text.end()); // NOLINT(modernize-use-auto)
-  text.erase(std::remove(text.begin(), text.end(), ']'), text.end()); // NOLINT(modernize-use-auto)
-  text.erase(std::remove(text.begin(), text.end(), ','), text.end()); // NOLINT(modernize-use-auto)
+  text.erase(std::remove(text.begin(), text.end(), '['),
+             text.end());  // NOLINT(boost-use-ranges)
+  text.erase(std::remove(text.begin(), text.end(), ']'),
+             text.end());  // NOLINT(boost-use-ranges)
+  text.erase(std::remove(text.begin(), text.end(), ','),
+             text.end());  // NOLINT(boost-use-ranges)
   return text;
 }
 
@@ -80,7 +80,8 @@ auto Matrix::readFromFile(const std::string& filename) -> Matrix {
     throw std::runtime_error("File is empty or invalid format.");
   }
 
-  Matrix result(static_cast<int>(temp_data.size()), static_cast<int>(temp_data[0].size()));
+  Matrix result(static_cast<int>(temp_data.size()),
+                static_cast<int>(temp_data[0].size()));
   result.data = temp_data;
   return result;
 }
@@ -116,7 +117,7 @@ auto Matrix::operator-(const Matrix& other) const -> Matrix {
 }
 
 // Scalar Multiplication
-auto Matrix::operator*(double scalar) const -> Matrix{
+auto Matrix::operator*(double scalar) const -> Matrix {
   Matrix res(rows, cols);
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
@@ -127,7 +128,7 @@ auto Matrix::operator*(double scalar) const -> Matrix{
 }
 
 // Matrix Multiplication
-auto Matrix::operator*(const Matrix& other) const -> Matrix{
+auto Matrix::operator*(const Matrix& other) const -> Matrix {
   if (cols != other.rows) {
     throw std::invalid_argument("Incompatible dimensions for multiplication.");
   }
