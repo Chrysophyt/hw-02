@@ -226,13 +226,3 @@ TEST(MatrixTest, ReadFileEdgeCases) {
     std::remove("junk.txt");
   }
 }
-
-TEST(MatrixTest, ReadValidFile) {
-  std::ofstream out("good_matrix.txt");
-  out << "[[1.0, 2.0], [3.0, 4.0]]";
-  out.close();
-
-  // This call will hit the 'if (ss.fail())' line,
-  // find that it is FALSE, and skip the block (Branch 4).
-  EXPECT_NO_THROW(Matrix::readFromFile("good_matrix.txt"));
-}

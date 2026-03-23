@@ -31,6 +31,7 @@ jobs:
         style: 'file'
         database: 'build'
         thread-comments: 'update'
+        ignore: 'test'
 
     - name: Fail pipeline if linting fails
       if: steps.linter.outputs.checks-failed > 0

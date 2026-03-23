@@ -8,27 +8,27 @@ class Matrix {
 private:
     int rows, cols;
     std::vector<std::vector<double>> data;
-    static std::string clean(std::string s);
+    static auto clean(std::string s) -> std::string;
 
 public:
     // Constructor
-    Matrix(int r, int c);
+    Matrix(int row, int col);
 
     // Accessors
-    void set(int r, int c, double val);
-    double get(int r, int c) const;
+    void set(int row, int col, double val);
+    auto get(int row, int col) const -> double;
     int getRows() const { return rows; }
     int getCols() const { return cols; }
 
     // For File I/O
     void writeToFile(const std::string& filename) const;
-    static Matrix readFromFile(const std::string& filename);
+    static auto readFromFile(const std::string& filename) -> Matrix;
 
     // For Math Operations
-    Matrix operator+(const Matrix& other) const;
-    Matrix operator-(const Matrix& other) const;
-    Matrix operator*(double scalar) const;
-    Matrix operator*(const Matrix& other) const;
+    auto operator+(const Matrix& other) const -> Matrix;
+    auto operator-(const Matrix& other) const -> Matrix;
+    auto operator*(double scalar) const -> Matrix;
+    auto operator*(const Matrix& other) const -> Matrix;
 
     // For Display
     void display() const;
