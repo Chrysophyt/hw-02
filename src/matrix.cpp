@@ -17,12 +17,11 @@ auto Matrix::get(int row, int col) const -> double { return data[row][col]; }
 // Private string cleaner
 auto Matrix::clean(std::string text) -> std::string {
   // Boost::algorithm dependencies needed for this
-  text.erase(std::remove(text.begin(), text.end(), '['),
-             text.end());  // NOLINT(boost-use-ranges)
-  text.erase(std::remove(text.begin(), text.end(), ']'),
-             text.end());  // NOLINT(boost-use-ranges)
-  text.erase(std::remove(text.begin(), text.end(), ','),
-             text.end());  // NOLINT(boost-use-ranges)
+  // NOLINTBEGIN(boost-use-ranges)
+  text.erase(std::remove(text.begin(), text.end(), '['), text.end());
+  text.erase(std::remove(text.begin(), text.end(), ']'), text.end());
+  text.erase(std::remove(text.begin(), text.end(), ','), text.end());
+  // NOLINTEND(boost-use-ranges)
   return text;
 }
 
