@@ -9,17 +9,17 @@ on:
 jobs:
   run-test:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
     - name: Configure CMake
-      # This creates the build directory (-B) and points to the source root (-S)
       run: cmake -S . -B build
 
     - name: Build
-      # This compiles the code inside the newly created build directory
       run: cmake --build build
 
     - name: Run C/C++ Linter
@@ -29,7 +29,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         style: 'file'
-        tidy-checks: ''
+        database: 'build'
         thread-comments: 'update'
 
     - name: Fail pipeline if linting fails
