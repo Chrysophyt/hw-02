@@ -1,37 +1,37 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
-#include <vector>
 #include <string>
+#include <vector>
 
 class Matrix {
-private:
-    int rows, cols;
-    std::vector<std::vector<double>> data;
-    static std::string clean(std::string s);
+ private:
+  int rows, cols;
+  std::vector<std::vector<double>> data;
+  static auto clean(std::string text) -> std::string;
 
-public:
-    // Constructor
-    Matrix(int r, int c);
+ public:
+  // Constructor
+  Matrix(int row, int col);
 
-    // Accessors
-    void set(int r, int c, double val);
-    double get(int r, int c) const;
-    int getRows() const { return rows; }
-    int getCols() const { return cols; }
+  // Accessors
+  void set(int row, int col, double val);
+  [[nodiscard]] auto get(int row, int col) const -> double;
+  [[nodiscard]] auto getRows() const -> int { return rows; }
+  [[nodiscard]] auto getCols() const -> int { return cols; }
 
-    // For File I/O
-    void writeToFile(const std::string& filename) const;
-    static Matrix readFromFile(const std::string& filename);
+  // For File I/O
+  void writeToFile(const std::string& filename) const;
+  static auto readFromFile(const std::string& filename) -> Matrix;
 
-    // For Math Operations
-    Matrix operator+(const Matrix& other) const;
-    Matrix operator-(const Matrix& other) const;
-    Matrix operator*(double scalar) const;
-    Matrix operator*(const Matrix& other) const;
+  // For Math Operations
+  auto operator+(const Matrix& other) const -> Matrix;
+  auto operator-(const Matrix& other) const -> Matrix;
+  auto operator*(double scalar) const -> Matrix;
+  auto operator*(const Matrix& other) const -> Matrix;
 
-    // For Display
-    void display() const;
+  // For Display
+  void display() const;
 };
 
 #endif
