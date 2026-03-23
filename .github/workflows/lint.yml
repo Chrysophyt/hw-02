@@ -14,6 +14,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Configure CMake
+      # This creates the build directory (-B) and points to the source root (-S)
+      run: cmake -S . -B build
+
+    - name: Build
+      # This compiles the code inside the newly created build directory
+      run: cmake --build build
+
     - name: Run C/C++ Linter
       uses: cpp-linter/cpp-linter-action@v2
       id: linter
