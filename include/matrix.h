@@ -8,7 +8,7 @@ class Matrix {
 private:
     int rows, cols;
     std::vector<std::vector<double>> data;
-    static auto clean(std::string s) -> std::string;
+    static auto clean(std::string text) -> std::string;
 
 public:
     // Constructor
@@ -16,9 +16,9 @@ public:
 
     // Accessors
     void set(int row, int col, double val);
-    auto get(int row, int col) const -> double;
-    int getRows() const { return rows; }
-    int getCols() const { return cols; }
+    [[nodiscard]] auto get(int row, int col) const -> double;
+    [[nodiscard]] auto getRows() const -> int { return rows; }
+    [[nodiscard]] auto getCols() const -> int { return cols; }
 
     // For File I/O
     void writeToFile(const std::string& filename) const;

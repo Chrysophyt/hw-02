@@ -15,7 +15,7 @@ Matrix::Matrix(int row, int col)
 
 // Accessors
 void Matrix::set(int row, int col, double val) { data[row][col] = val; }
-auto Matrix::get(int row, int col) const ->double { return data[row][col]; }
+auto Matrix::get(int row, int col) const -> double { return data[row][col]; }
 
 // Private string cleaner
 auto Matrix::clean(std::string text)  -> std::string {

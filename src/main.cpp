@@ -24,5 +24,5 @@ int main() { // NOLINT(modernize-use-trailing-return-type)
   std::cout << "Done!\n";
 
   return 0;
-  // NOLINTBEGIN(readability-magic-numbers, cppcoreguidelines-avoid-magic-numbers, readability-identifier-length)
+  // NOLINTEND(readability-magic-numbers, cppcoreguidelines-avoid-magic-numbers, readability-identifier-length)
 }
