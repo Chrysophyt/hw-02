@@ -31,7 +31,7 @@ jobs:
       run: sudo apt-get update && sudo apt-get install -y gcovr
 
     - name: Generate Coverage Report
-      run: gcovr -r . --xml -o coverage.xml
+      run: gcovr -r . --xml -o coverage.xml --exclude="test/.*" --exclude="src/main.cpp"
 
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v4
