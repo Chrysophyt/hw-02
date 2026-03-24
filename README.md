@@ -1,5 +1,5 @@
-[![Tests](https://github.com/Chrysophyt/homework-02/actions/workflows/ci.yml/badge.svg)](https://github.com/Chrysophyt/homework-02/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/Chrysophyt/homework-02/graph/badge.svg?token=JQH884LD64)](https://codecov.io/gh/Chrysophyt/homework-02)
+[![Tests](https://github.com/Chrysophyt/hw-02/actions/workflows/ci.yml/badge.svg)](https://github.com/Chrysophyt/hw-02/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/Chrysophyt/hw-02/graph/badge.svg?token=JQH884LD64)](https://codecov.io/gh/Chrysophyt/hw-02)
 ## Testing and Code Coverage
 This project uses Google Test (gTest) for unit testing and gcovr to generate HTML code coverage reports.
 
