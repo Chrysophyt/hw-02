@@ -1,5 +1,70 @@
 [![Tests](https://github.com/Chrysophyt/hw-02/actions/workflows/ci.yml/badge.svg)](https://github.com/Chrysophyt/hw-02/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/Chrysophyt/hw-02/graph/badge.svg?token=JQH884LD64)](https://codecov.io/gh/Chrysophyt/hw-02)
+
+## Overview
+
+A C++ template-based matrix computation library with the following features:
+
+- **Generic**: Works with any arithmetic type (int, float, double, etc.)
+- **Operations**: Matrix addition, subtraction, scalar multiplication, matrix multiplication
+- **File I/O**: Read/write matrices to/from files
+- **Display**: Print matrices to console
+
+## Build
+
+```bash
+mkdir build
+cd build
+cmake ..
+make
+```
+
+## Run the Application
+
+```bash
+./matrix_app
+```
+
+## Run Tests
+
+```bash
+./matrix_test
+```
+
+## Example Usage
+
+```cpp
+#include "matrix.h"
+
+int main() {
+  // Create a 2x2 matrix (defaults double)
+  Matrix A(2, 2);
+  A.set(0, 0, 1);
+  A.set(0, 1, 2);
+  A.set(1, 0, 3);
+  A.set(1, 1, 4);
+
+  // Matrix addition
+  Matrix B = A + A;
+
+  // Matrix subtraction
+  Matrix C = A - B;
+
+  // Scalar multiplication
+  Matrix D = A * 2.5;
+
+  // Matrix multiplication
+  Matrix E = A * B;
+
+  // Display
+  A.display();
+
+  // File I/O
+  A.writeToFile("matrix.txt");
+  Matrix F = Matrix::readFromFile("matrix.txt");
+}
+```
+
 ## Testing and Code Coverage
 This project uses Google Test (gTest) for unit testing and gcovr to generate HTML code coverage reports.
 
