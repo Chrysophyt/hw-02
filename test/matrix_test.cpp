@@ -32,7 +32,9 @@ TEST(MatrixTest, MatrixAddition) {
 
   Matrix result = m1 + m2;
 
-  // 1+5 = 6, 4+8 = 12
+  // Expected:
+  // [ (1+5), (2+6)  ] -> [  6.0, 8.0 ]
+  // [ (3+7), (4+8)  ] -> [ 10.0, 12.0]
   EXPECT_DOUBLE_EQ(result.get(0, 0), 6.0);
   EXPECT_DOUBLE_EQ(result.get(0, 1), 8.0);
   EXPECT_DOUBLE_EQ(result.get(1, 0), 10.0);
@@ -88,11 +90,20 @@ TEST(MatrixTest, MatrixMultiplication) {
   EXPECT_EQ(result.getRows(), 2);
   EXPECT_EQ(result.getCols(), 2);
 
-  // Expected Calculations:
-  // Row 0, Col 0: (1*7 + 2*9 + 3*11) = 58.0
-  // Row 0, Col 1: (1*8 + 2*10 + 3*12) = 64.0
-  // Row 1, Col 0: (4*7 + 5*9 + 6*11) = 139.0
-  // Row 1, Col 1: (4*8 + 5*10 + 6*12) = 154.0
+  // VISUALIZING THE MULTIPLICATION:
+  // Matrix m1 (2x3)     Matrix m2 (3x2)
+  // [ 1.0  2.0  3.0 ]  * [  7.0   8.0 ]
+  // [ 4.0  5.0  6.0 ]    [  9.0  10.0 ]
+  //                      [ 11.0  12.0 ]
+  //
+  // Expected Result Calculation:
+  // [ (1*7 + 2*9 + 3*11)     (1*8 + 2*10 + 3*12) ]
+  // [ (4*7 + 5*9 + 6*11)     (4*8 + 5*10 + 6*12) ]
+  //
+  // Final Expected Matrix (2x2):
+  // [  58.0   64.0 ]
+  // [ 139.0  154.0 ]
+
   EXPECT_DOUBLE_EQ(result.get(0, 0), 58.0);
   EXPECT_DOUBLE_EQ(result.get(0, 1), 64.0);
   EXPECT_DOUBLE_EQ(result.get(1, 0), 139.0);
@@ -178,7 +189,7 @@ TEST(MatrixTest, BadWriteToFile) {
   std::string bad_filename = "/this_directory_does_not_exist/matrix.txt";
   EXPECT_THROW(
       {
-        m.writeToFile(bad_filename);  // Replace with your actual function name
+        m.writeToFile(bad_filename);
       },
       std::runtime_error);
 }
@@ -210,7 +221,7 @@ TEST(MatrixTest, ReadFileEdgeCases) {
   // 3. Bad Character
   {
     std::ofstream out("bad_char.txt");
-    out << "[[1.0, x]]";  // 'x' makes ss.fail() true before EOF
+    out << "[[1.0, x]]";
     out.close();
     EXPECT_THROW(Matrix::readFromFile("bad_char.txt"), std::runtime_error);
     std::remove("bad_char.txt");
@@ -221,7 +232,7 @@ TEST(MatrixTest, ReadFileEdgeCases) {
     std::ofstream out("junk.txt");
     out << "[[1.0] some_random_text]";
     out.close();
-    // Depending on your 'clean' logic, this should trigger the error
+
     EXPECT_THROW(Matrix::readFromFile("junk.txt"), std::runtime_error);
     std::remove("junk.txt");
   }
